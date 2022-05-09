@@ -5,6 +5,8 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCAuthApp", "MVCAuthApp\MVCAuthApp.csproj", "{65FA5BD6-ADB9-483D-861D-BA04AE63024C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballApp", "FootballApp\FootballApp.csproj", "{8C565932-20F1-40EC-9CA1-EC1073177B00}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
