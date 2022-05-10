@@ -1,4 +1,6 @@
-﻿using System;
+﻿//using Intercom.Core;
+using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -7,6 +9,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
+
 
 namespace FootballApp.Controllers
 {
@@ -19,9 +22,9 @@ namespace FootballApp.Controllers
             string api_url = "http://api.football-api.com/2.0/matches?match_date=8.12.2018&Authorization=565ec012251f932ea4000001fa542ae9d994470e73fdb314a8a56d76";
             string result = RequestApiService(api_url);
 
-            Debug.WriteLine(result);
+            //Debug.WriteLine(result);
 
-
+            List<MVCAuthApp.Models.Match> matches = JsonConvert.DeserializeObject<List<MVCAuthApp.Models.Match>>(result);
 
 
             return View();
