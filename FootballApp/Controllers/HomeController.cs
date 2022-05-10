@@ -27,7 +27,7 @@ namespace FootballApp.Controllers
             List<MVCAuthApp.Models.Match> matches = JsonConvert.DeserializeObject<List<MVCAuthApp.Models.Match>>(result);
 
 
-            return View();
+            return View(matches);
         }
 
         public static string RequestApiService(string url)
