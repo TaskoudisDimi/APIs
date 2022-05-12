@@ -10,78 +10,47 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>Index</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
 </head>
 <body>
     <p>
         @Html.ActionLink("Create New", "Create")
     </p>
-    <table class="table">
 
-    
-    @foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.comp_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.formatted_date)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.season)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.week)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.venue_city)
-            </td>
-            <td>
+    <div class="container">
+        @foreach (var item in Model)
+        {
+        <div class="row">
+            <div class="col x13" style="text-align:center;">
+                @Html.DisplayFor(modelItem => item.localteam_name)<br />
+                 <h3>@Html.DisplayFor(modelItem => item.localteam_score)</h3>
+            </div>
+            <div class="col x16" style="text-align:center;">
+                @Html.DisplayFor(modelItem => item.formatted_date)<br />
+                @Html.DisplayFor(modelItem => item.venue)<br />
+                @Html.DisplayFor(modelItem => item.venue_city)<br />
                 @Html.DisplayFor(modelItem => item.status)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.timer)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.time)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.localteam_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.localteam_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.localteam_score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.visitorteam_id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.visitorteam_name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.visitorteam_score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ht_score)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.ft_score)
-            </td>
-            <td>
-                @Html.ActionLink("Edit", "Edit", new { id=item.id }) |
-                @Html.ActionLink("Details", "Details", new { id=item.id }) |
-                @Html.ActionLink("Delete", "Delete", new { id=item.id })
-            </td>
-        </tr>
-    }
+
+            </div>
+            <div class="col x13" style="text-align:center;">
+                @Html.DisplayFor(modelItem => item.visitorteam_name)<br />
+                <h3>@Html.DisplayFor(modelItem => item.visitorteam_score)</h3>
+            </div>
+        </div>  
+        }
+
+
+    </div>
     
-    </table>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+
 </body>
 </html>
+
