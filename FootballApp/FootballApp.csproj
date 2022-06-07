@@ -101,6 +101,11 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
+    <Content Include="Media\team1.png" />
+    <Content Include="Media\unnamed.jpg" />
+    <Content Include="Media\αρχείο λήψης %281%29.png" />
+    <Content Include="Media\αρχείο λήψης %282%29.png" />
+    <Content Include="Media\αρχείο λήψης.png" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
