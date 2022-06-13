@@ -14,7 +14,7 @@ namespace FullStackAppAPI.Controllers
         public HttpResponseMessage Get()
         {
             var retVal = new { key1 = "value1", key2 = "value2" };
-            return Request.CreateResponse(HttpStatusCode.OK.retVal);
+            return Request.CreateResponse(HttpStatusCode.OK, retVal);
         }
 
         // GET api/values/5
