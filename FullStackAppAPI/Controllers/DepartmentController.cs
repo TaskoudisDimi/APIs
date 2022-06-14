@@ -58,5 +58,53 @@ namespace FullStackAppAPI.Controllers
         }
 
 
+        public string Put(Department dep)
+        {
+            try
+            {
+                string query = @"Update Department set DepartmentName='" + dep.DepartmentName + @"' where DepartmentId=" + dep.DepartmentId + @"";
+                DataTable table = new DataTable();
+                using (var con = new SqlConnection(ConfigurationManager.
+                ConnectionStrings["Employee"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var adapter = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    adapter.Fill(table);
+                }
+                return "Updated Successfully";
+
+            }
+            catch
+            {
+                return "Failed to Updated!";
+            }
+        }
+
+
+        public string Delete(int dep)
+        {
+            try
+            {
+
+                string query = @"delete from Department where DepartmentId=" + id + @"";
+                DataTable table = new DataTable();
+                using (var con = new SqlConnection(ConfigurationManager.
+                ConnectionStrings["Employee"].ConnectionString))
+                using (var cmd = new SqlCommand(query, con))
+                using (var adapter = new SqlDataAdapter(cmd))
+                {
+                    cmd.CommandType = CommandType.Text;
+                    adapter.Fill(table);
+                }
+                return "Deleted Successfully";
+
+            }
+            catch
+            {
+                return "Failed to Delete!";
+            }
+        }
+
     }
 }
