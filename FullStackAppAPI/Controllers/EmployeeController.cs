@@ -17,7 +17,6 @@ namespace FullStackAppAPI.Controllers
 {
     public class EmployeeController : ApiController
     {
-        // GET: Employee
         public HttpResponseMessage Get()
         {
             string query = @"Select EmployeeId, EmployeeName, Department 

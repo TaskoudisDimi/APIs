@@ -82,7 +82,7 @@ namespace FullStackAppAPI.Controllers
         }
 
 
-        public string Delete(int dep)
+        public string Delete(int id)
         {
             try
             {
