@@ -1,4 +1,10 @@
+using InspectionApp;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+
+var myAlloqSpecificOrigins = "_myAllowSpecificOrigin";
+
 
 // Add services to the container.
 
@@ -6,6 +12,22 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+builder.Services.AddDbContext<DataContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Connection"));
+});
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: myAlloqSpecificOrigins,
+        builder =>
+        {
+            builder.WithOrigins("http://localhost:4200").AllowAnyMethod()
+            .AllowAnyHeader();
+        });
+});
 
 var app = builder.Build();
 
@@ -17,6 +39,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors(myAlloqSpecificOrigins);
 
 app.UseAuthorization();
 
