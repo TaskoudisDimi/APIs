@@ -22,17 +22,21 @@ namespace Jokes.Controllers
         // GET: Jokes/
         public async Task<IActionResult> Index()
         {
-              return _context.Joke != null ? 
-                          View(await _context.Joke.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Joke'  is null.");
+              return View(await _context.Joke.ToListAsync());
         }
 
 
         // GET: Jokes/ShowSearchForms
-        public async Task<IActionResult> ShowSearchForms()
+        public async Task<IActionResult> ShowSearchForm()
         {
-            return View("ShowSearchForm");
+            return View();
         }
+
+        // Post: Jokes/ShowSearchResults
+        public string ShowSearchResults(string SearchPhrase)
+        {
+            return "You entered " + SearchPhrase;
+        } 
 
         // GET: Jokes/Details/5
         public async Task<IActionResult> Details(int? id)
