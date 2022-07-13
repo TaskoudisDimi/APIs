@@ -19,12 +19,19 @@ namespace Jokes.Controllers
             _context = context;
         }
 
-        // GET: Jokes
+        // GET: Jokes/
         public async Task<IActionResult> Index()
         {
               return _context.Joke != null ? 
                           View(await _context.Joke.ToListAsync()) :
                           Problem("Entity set 'ApplicationDbContext.Joke'  is null.");
+        }
+
+
+        // GET: Jokes/ShowSearchForms
+        public async Task<IActionResult> ShowSearchForms()
+        {
+            return View("ShowSearchForm");
         }
 
         // GET: Jokes/Details/5
