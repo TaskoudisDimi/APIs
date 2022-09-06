@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MVCAuthApp", "MVCAuthApp\MVCAuthApp.csproj", "{65FA5BD6-ADB9-483D-861D-BA04AE63024C}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballApp", "FootballApp\FootballApp.csproj", "{8C565932-20F1-40EC-9CA1-EC1073177B00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FullStackAppAPI", "FullStackAppAPI\FullStackAppAPI.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Department", "FullStackAppAPI\Department.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InspectionApp", "InspectionApp\InspectionApp.csproj", "{078B64DC-1465-4914-A127-7E3A9720FD47}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Jokes", "Jokes\Jokes.csproj", "{DCE07E22-984B-4477-A93D-71FACB8B10E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jokes", "Jokes\Jokes.csproj", "{DCE07E22-984B-4477-A93D-71FACB8B10E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{AE8326FF-FC22-4887-833F-3406D1FA7953}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{65FA5BD6-ADB9-483D-861D-BA04AE63024C}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -39,6 +35,10 @@ Global
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AE8326FF-FC22-4887-833F-3406D1FA7953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AE8326FF-FC22-4887-833F-3406D1FA7953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AE8326FF-FC22-4887-833F-3406D1FA7953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AE8326FF-FC22-4887-833F-3406D1FA7953}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
