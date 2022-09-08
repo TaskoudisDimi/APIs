@@ -15,15 +15,18 @@ namespace FullStackAppAPI.Controllers
 {
     public class DepartmentController : ApiController
     {
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/market")]
         // GET: Department
         public HttpResponseMessage Get()
         {
-            string query = @"Select DepartmentId, DepartmentName From [Employees].[dbo].[Department]";
+            string query = @"Select * From ProductTbl";
 
             DataTable table = new DataTable();
 
             using (var con = new SqlConnection(ConfigurationManager.
-                ConnectionStrings["Employee"].ConnectionString))
+                ConnectionStrings["smarketdb"].ConnectionString))
                 using (var cmd = new SqlCommand(query, con))
             using (var adapter = new SqlDataAdapter(cmd))
             {
@@ -33,7 +36,7 @@ namespace FullStackAppAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
 
-
+        [System.Web.Http.HttpPost]
         public string Post(Department dep)
         {
             try
@@ -57,6 +60,7 @@ namespace FullStackAppAPI.Controllers
             }
         }
 
+        [System.Web.Http.HttpPut]
 
         public string Put(Department dep)
         {
@@ -81,6 +85,7 @@ namespace FullStackAppAPI.Controllers
             }
         }
 
+        [System.Web.Http.HttpDelete]
 
         public string Delete(int id)
         {
