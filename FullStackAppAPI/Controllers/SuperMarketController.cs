@@ -13,9 +13,11 @@ using FullStackAppAPI.Models;
 
 namespace FullStackAppAPI.Controllers
 {
-    public class DepartmentController : ApiController
+    public class SuperMarketController : ApiController
     {
 
+
+        //HttpResponseMessage: Represents a HTTP response message including the status code and data.
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/market")]
         // GET: Department
@@ -35,6 +37,8 @@ namespace FullStackAppAPI.Controllers
             }
             return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+
 
         [System.Web.Http.HttpPost]
         public string Post(Department dep)
@@ -110,6 +114,8 @@ namespace FullStackAppAPI.Controllers
                 return "Failed to Delete!";
             }
         }
+
+
 
     }
 }
