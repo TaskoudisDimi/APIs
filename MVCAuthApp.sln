@@ -5,7 +5,7 @@ VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballApp", "FootballApp\FootballApp.csproj", "{8C565932-20F1-40EC-9CA1-EC1073177B00}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Department", "FullStackAppAPI\Department.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperMarketAPI", "FullStackAppAPI\SuperMarketAPI.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InspectionApp", "InspectionApp\InspectionApp.csproj", "{078B64DC-1465-4914-A127-7E3A9720FD47}"
 EndProject
