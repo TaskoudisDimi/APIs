@@ -172,7 +172,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\Department.cs" />
+    <Compile Include="Models\Products.cs" />
     <Compile Include="Models\Employee.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -231,6 +231,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\Employee\" />
+    <Folder Include="Views\Products\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
