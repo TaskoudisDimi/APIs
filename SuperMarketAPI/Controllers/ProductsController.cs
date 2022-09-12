@@ -13,7 +13,7 @@ using FullStackAppAPI.Models;
 namespace FullStackAppAPI.Controllers
 {
     [Log]
-    public class SuperMarketController : ApiController
+    public class ProductsController : ApiController
     {
 
         #region Action Return Type
@@ -213,7 +213,11 @@ namespace FullStackAppAPI.Controllers
 
         #endregion
 
-        public IHttpActionResult GetAllProducts()
+
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/products")]
+        public HttpResponseMessage GetAllProducts()
         {
             string query = @"Select * From ProductTbl";
 
@@ -227,17 +231,31 @@ namespace FullStackAppAPI.Controllers
                 cmd.CommandType = CommandType.Text;
                 adapter.Fill(table);
             }
-
-
-            if (table.Rows.Count > 0)
-            {
-                return NotFound();
-            }
-
-            return Ok(table);
-
-
+            return Request.CreateResponse(HttpStatusCode.OK, table);
         }
+
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/products/id")]
+        public HttpResponseMessage GetValue(int Id)
+        {
+            string query = @"Select * From ProductTbl where Prodid=" + Id + "";
+
+            DataTable table = new DataTable();
+
+            using (var con = new SqlConnection(ConfigurationManager.
+                ConnectionStrings["smarketdb"].ConnectionString))
+            using (var cmd = new SqlCommand(query, con))
+            using (var adapter = new SqlDataAdapter(cmd))
+            {
+                cmd.CommandType = CommandType.Text;
+                adapter.Fill(table);
+            }
+            return Request.CreateResponse(HttpStatusCode.OK, table);
+        }
+
+
+
     }
 }
 

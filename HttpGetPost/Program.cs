@@ -11,7 +11,9 @@ namespace HttpGetPost
         {
             using(var client = new HttpClient())
             {
-                var endpoint = new Uri("https://jsonplaceholder.typicode.com/posts");
+                //var endpoint = new Uri("https://jsonplaceholder.typicode.com/posts");
+                var endpoint = new Uri("http://localhost:52465/api/products");
+
 
                 //get
                 var result1 = client.GetAsync(endpoint).Result;
