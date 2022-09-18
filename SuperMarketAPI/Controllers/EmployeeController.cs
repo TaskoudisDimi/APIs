@@ -38,7 +38,7 @@ namespace FullStackAppAPI.Controllers
         }
 
 
-        public string Post(Employee emp)
+        public string Post(Sellers emp)
         {
             try
             {
@@ -69,7 +69,7 @@ namespace FullStackAppAPI.Controllers
         }
 
 
-        public string Put(Employee emp)
+        public string Put(Sellers emp)
         {
             try
             {

@@ -5,7 +5,7 @@ using System.Web;
 
 namespace FullStackAppAPI.Models
 {
-    public class Employee
+    public class Sellers
     {
         public int EmployeeId { get; set; }
 

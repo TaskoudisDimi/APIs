@@ -162,18 +162,21 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\SampleDirection.cs" />
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
+    <Compile Include="Controllers\CategoriesController.cs" />
     <Compile Include="Controllers\CreateCustomResultType.cs" />
     <Compile Include="Controllers\LogAttribute.cs" />
     <Compile Include="Controllers\ProductsController.cs" />
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\SellersController.cs" />
     <Compile Include="Controllers\TestController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Categories.cs" />
     <Compile Include="Models\Products.cs" />
-    <Compile Include="Models\Employee.cs" />
+    <Compile Include="Models\Sellers.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -229,9 +232,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Categories\" />
     <Folder Include="Views\Department\" />
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Products\" />
+    <Folder Include="Views\Sellers\" />
     <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
