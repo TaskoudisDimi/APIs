@@ -2,16 +2,40 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
-using System.Web.Mvc;
+using System.Web.Http;
+using System.Data;
+using System.Net.Http;
+using System.Data.SqlClient;
+using System.Configuration;
+using System.Net;
 
 namespace FullStackAppAPI.Controllers
 {
-    public class SellersController : Controller
+    public class SellersController : ApiController
     {
-        // GET: Sellers
-        public ActionResult Index()
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/sellers")]
+        public HttpResponseMessage GetAllProducts()
         {
-            return View();
+            string query = @"Select * From SellerTbl";
+            Connect con = new Connect();
+            con.retrieve_data(query);
+            return Request.CreateResponse(HttpStatusCode.OK, con.table);
         }
+
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/sellers/id")]
+        public HttpResponseMessage GetValue(int Id)
+        {
+
+            string query = @"Select * From SellerTbl where SellerId=" + Id + "";
+            Connect con = new Connect();
+            con.retrieve_data(query);
+            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+
+        }
+
     }
 }

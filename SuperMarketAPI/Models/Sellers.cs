@@ -7,15 +7,17 @@ namespace FullStackAppAPI.Models
 {
     public class Sellers
     {
-        public int EmployeeId { get; set; }
+        public int SellerId  { get; set; }
 
-        public string EmployeeName { get; set; }
+        public string SellerName { get; set; }
 
-        public string Department { get; set; }
+        public int SellerAge { get; set; }
 
-        public string DateOfJoining { get; set; }
+        public int SellerPhone { get; set; }
 
-        public string PhotoFileName { get; set; }
+        public int SellerPass { get; set; }
+
+        public DateTime Date { get; set; }
 
     }
 }

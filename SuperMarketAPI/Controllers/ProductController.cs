@@ -8,12 +8,14 @@ using System.Net.Http;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Net;
+using FullStackAppAPI.Models;
+using DataAccess;
 
 
 namespace FullStackAppAPI.Controllers
 {
     [Log]
-    public class ProductsController : ApiController
+    public class ProductController : ApiController
     {
 
         #region Action Return Type
@@ -213,33 +215,22 @@ namespace FullStackAppAPI.Controllers
 
         #endregion
 
-
-
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/products")]
-        public HttpResponseMessage GetAllProducts()
+        public IHttpActionResult GetAllProducts()
         {
             string query = @"Select * From ProductTbl";
-            Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+
+            Connect data = new Connect();
+           
+
+            if (table.Rows.Count > 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(table);
+
+
         }
-
-
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/products/id")]
-        public HttpResponseMessage GetValue(int Id)
-        {
-
-            string query = @"Select * From ProductTbl where Prodid=" + Id + "";
-            Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
-        
-        }
-
-
-
     }
 }
 
