@@ -27,10 +27,22 @@ namespace FullStackAppAPI.Controllers
 
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/sellers/id")]
-        public HttpResponseMessage GetValue(int Id)
+        public HttpResponseMessage GetValueById(int Id)
         {
 
             string query = @"Select * From SellerTbl where SellerId=" + Id + "";
+            Connect con = new Connect();
+            con.retrieve_data(query);
+            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+
+        }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/sellers/id")]
+        public HttpResponseMessage GetValueByName(string SellerName)
+        {
+
+            string query = @"Select * From SellerTbl where SellerName=" + SellerName + "";
             Connect con = new Connect();
             con.retrieve_data(query);
             return Request.CreateResponse(HttpStatusCode.OK, con.table);

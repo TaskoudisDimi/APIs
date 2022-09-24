@@ -228,7 +228,7 @@ namespace FullStackAppAPI.Controllers
 
         [System.Web.Http.HttpGet]
         [System.Web.Http.Route("api/products/id")]
-        public HttpResponseMessage GetValue(int Id)
+        public HttpResponseMessage GetValueById(int Id)
         {
 
             string query = @"Select * From ProductTbl where Prodid=" + Id + "";
@@ -237,6 +237,19 @@ namespace FullStackAppAPI.Controllers
             return Request.CreateResponse(HttpStatusCode.OK, con.table);
         
         }
+
+        [System.Web.Http.HttpGet]
+        [System.Web.Http.Route("api/products/name")]
+        public HttpResponseMessage GetValueByName(string ProdName)
+        {
+
+            string query = @"Select * From ProductTbl where ProdName=" + ProdName + "";
+            Connect con = new Connect();
+            con.retrieve_data(query);
+            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+
+        }
+
 
 
 
