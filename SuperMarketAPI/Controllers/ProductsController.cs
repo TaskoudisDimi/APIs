@@ -250,7 +250,15 @@ namespace FullStackAppAPI.Controllers
 
         }
 
-
+        [System.Web.Http.HttpPost]
+        [System.Web.Http.Route("api/products")]
+        public HttpResponseMessage PostAllProducts()
+        {
+            string query = @"Select * From ProductTbl";
+            Connect con = new Connect();
+            con.retrieve_data(query);
+            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+        }
 
 
     }
