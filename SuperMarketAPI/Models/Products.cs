@@ -9,12 +9,10 @@ namespace FullStackAppAPI.Models
     {
 
         public int ProductId { get; set; }
-        
-        public string ProductName { get; set; }
-        public int ProductQty { get; set; }
-        public int ProductPrice { get; set; }
-        public string ProductCat { get; set; }
-        public DateTime ProductDate { get; set; }
+        public string ProdName { get; set; }
+        public int ProdQty { get; set; }
+        public int ProdPrice { get; set; }
+        public string ProdCat { get; set; }
 
     }
 }

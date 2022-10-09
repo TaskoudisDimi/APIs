@@ -8,7 +8,7 @@ using System.Net.Http;
 using System.Data.SqlClient;
 using System.Configuration;
 using System.Net;
-
+using FullStackAppAPI.Models;
 
 namespace FullStackAppAPI.Controllers
 {
@@ -252,16 +252,18 @@ namespace FullStackAppAPI.Controllers
 
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("api/products")]
-        public HttpResponseMessage PostAllProducts()
+        public HttpResponseMessage PostAllProducts([FromBody]Products products)
         {
-            string query = @"Select * From ProductTbl";
+            string query = @"Insert Into ProductTbl values(" + products.ProductId + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "')";
             Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+            con.commandExc(query);
+
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
 
     }
 }
+
 
 
