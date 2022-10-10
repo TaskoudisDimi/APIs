@@ -216,7 +216,7 @@ namespace FullStackAppAPI.Controllers
 
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/products")]
+        [System.Web.Http.Route("api/allproducts")]
         public HttpResponseMessage GetAllProducts()
         {
             string query = @"Select * From ProductTbl";
@@ -226,44 +226,66 @@ namespace FullStackAppAPI.Controllers
         }
 
 
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/products/id")]
-        public HttpResponseMessage GetValueById(int Id)
-        {
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("api/products/{id}")]
+        //public HttpResponseMessage GetValueById(int Id)
+        //{
 
-            string query = @"Select * From ProductTbl where Prodid=" + Id + "";
-            Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+        //    string query = @"Select * From ProductTbl where Prodid=" + Id + "";
+        //    Connect con = new Connect();
+        //    con.retrieve_data(query);
+        //    return Request.CreateResponse(HttpStatusCode.OK, con.table);
         
-        }
+        //}
 
-        [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/products/name")]
-        public HttpResponseMessage GetValueByName(string ProdName)
-        {
+        //[System.Web.Http.HttpGet]
+        //[System.Web.Http.Route("api/products/{name}")]
+        //public HttpResponseMessage GetValueByName(string ProdName)
+        //{
 
-            string query = @"Select * From ProductTbl where ProdName=" + ProdName + "";
-            Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
+        //    string query = @"Select * From ProductTbl where ProdName=" + ProdName + "";
+        //    Connect con = new Connect();
+        //    con.retrieve_data(query);
+        //    return Request.CreateResponse(HttpStatusCode.OK, con.table);
 
-        }
+        //}
 
         [System.Web.Http.HttpPost]
         [System.Web.Http.Route("api/products")]
-        public HttpResponseMessage PostAllProducts([FromBody]Products products)
+        public HttpResponseMessage PostProducts([FromBody]Products products)
         {
-            string query = @"Insert Into ProductTbl values(" + products.ProductId + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "')";
+            string query = @"Insert Into ProductTbl values(" + products.Prodid + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "')";
             Connect con = new Connect();
             con.commandExc(query);
 
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [System.Web.Http.HttpDelete]
+        [System.Web.Http.Route("api/delete/{Prodid}")]
+        public HttpResponseMessage DeleteProducts([FromUri] int Prodid)
+        {
+            string query = @"Delete From ProductTbl where ProdId=" + Prodid;
+            Connect con = new Connect();
+            con.commandExc(query);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
+        [System.Web.Http.HttpPut]
+        [System.Web.Http.Route("api/put/{Prodid}")]
+        public HttpResponseMessage PutProducts([FromUri] int Prodid, Products products)
+        {
+            string query = @"Update ProductTbl set ProdName='" + products.ProdName + "','" + products.ProdQty + "','" + products.ProdPrice + "','" + products.ProdCat + "' Where Prodid = " + products.Prodid;
+            Connect con = new Connect();
+            con.commandExc(query);
+            return Request.CreateResponse(HttpStatusCode.OK);
+        }
+
 
     }
 }
+
+
 
 
 

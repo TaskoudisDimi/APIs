@@ -26,7 +26,7 @@ namespace FullStackAppAPI.Controllers
 
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/sellers/id")]
+        [System.Web.Http.Route("api/sellers/{id}")]
         public HttpResponseMessage GetValueById(int Id)
         {
 
@@ -37,7 +37,7 @@ namespace FullStackAppAPI.Controllers
 
         }
 
-        [System.Web.Http.HttpGet]
+        [System.Web.Http.HttpPost]
         [System.Web.Http.Route("api/sellers/id")]
         public HttpResponseMessage GetValueByName(string SellerName)
         {

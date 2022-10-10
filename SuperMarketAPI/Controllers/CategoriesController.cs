@@ -27,7 +27,7 @@ namespace FullStackAppAPI.Controllers
 
          
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/categories/id")]
+        [System.Web.Http.Route("api/categories/{id}")]
         public HttpResponseMessage GetValueById(int Id)
         {
             string query = @"Select * From CategoriesTbl where Catid=" + Id + "";
@@ -37,7 +37,7 @@ namespace FullStackAppAPI.Controllers
         }
 
         [System.Web.Http.HttpGet]
-        [System.Web.Http.Route("api/categories/name")]
+        [System.Web.Http.Route("api/categories/{name}")]
         public HttpResponseMessage GetValueByName(string CatName)
         {
             string query = @"Select * From CategoriesTbl where CatName=" + CatName + "";
