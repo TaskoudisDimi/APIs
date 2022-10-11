@@ -275,7 +275,7 @@ namespace FullStackAppAPI.Controllers
         [System.Web.Http.Route("api/put/{Prodid}")]
         public HttpResponseMessage PutProducts([FromUri] int Prodid, Products products)
         {
-            string query = @"Update ProductTbl set ProdName='" + products.ProdName + "','" + products.ProdQty + "','" + products.ProdPrice + "','" + products.ProdCat + "' Where Prodid = " + products.Prodid;
+            string query = @"Update ProductTbl set ProdName='" + products.ProdName + "', ProdQty='" + products.ProdQty + "', ProdPrice='" + products.ProdPrice + "', ProdCat='" + products.ProdCat + "' Where Prodid = " + products.Prodid;
             Connect con = new Connect();
             con.commandExc(query);
             return Request.CreateResponse(HttpStatusCode.OK);
