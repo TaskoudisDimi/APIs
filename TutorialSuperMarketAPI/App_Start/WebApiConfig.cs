@@ -29,6 +29,7 @@ namespace FullStackAppAPI
             );
 
             config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
+            config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new MediaTypeHeaderValue("application/octet-stream"));
             config.EnableCors(new EnableCorsAttribute("*", "*", "*"));
 
 

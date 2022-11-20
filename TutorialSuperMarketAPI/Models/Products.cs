@@ -14,5 +14,7 @@ namespace FullStackAppAPI.Models
         public int ProdPrice { get; set; }
         public string ProdCat { get; set; }
 
+        public DateTime Date { get; set; }
+
     }
 }

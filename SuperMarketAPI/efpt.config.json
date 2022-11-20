@@ -1,0 +1,61 @@
+﻿{
+   "CodeGenerationMode": 2,
+   "ContextClassName": "smarketDbContext",
+   "ContextNamespace": null,
+   "DefaultDacpacSchema": null,
+   "FilterSchemas": false,
+   "IncludeConnectionString": false,
+   "ModelNamespace": null,
+   "OutputContextPath": "Db",
+   "OutputPath": "Db",
+   "PreserveCasingWithRegex": true,
+   "ProjectRootNamespace": "SuperMarketAPI",
+   "Schemas": null,
+   "SelectedHandlebarsLanguage": 0,
+   "SelectedToBeGenerated": 0,
+   "Tables": [
+      {
+         "Name": "[dbo].[Addresses]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[BillTbl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[CategoryTbl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[ProductTbl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[SellerTbl]",
+         "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
+      }
+   ],
+   "UiHint": "DIMITRISTASKOUD\\DIMITRIS_TASKOUD.smarketdb",
+   "UseBoolPropertiesWithoutDefaultSql": false,
+   "UseDatabaseNames": false,
+   "UseDbContextSplitting": false,
+   "UseFluentApiOnly": true,
+   "UseHandleBars": false,
+   "UseHierarchyId": false,
+   "UseInflector": true,
+   "UseLegacyPluralizer": false,
+   "UseManyToManyEntity": false,
+   "UseNoConstructor": false,
+   "UseNoDefaultConstructor": false,
+   "UseNoNavigations": false,
+   "UseNoObjectFilter": false,
+   "UseNodaTime": false,
+   "UseNullableReferences": false,
+   "UseSchemaFolders": false,
+   "UseSpatial": false,
+   "UseT4": false
+}
