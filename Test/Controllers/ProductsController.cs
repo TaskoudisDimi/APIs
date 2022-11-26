@@ -1,5 +1,6 @@
 ﻿using Database;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Data;
 using System.Reflection;
 using Test.Models;
@@ -12,43 +13,58 @@ namespace Test.Controllers
     {
         List<int> test = new List<int>(); 
         Products products = new Products();
+        string JSONString = string.Empty;
+        
         [HttpGet]
         public ActionResult<IEnumerable<Products>> Get()
         {
+
             Connect con = new Connect();
             con.retrieveData("Select * from ProductTbl");
-            
-            return Ok(test);
+            JSONString = JsonConvert.SerializeObject(con.table);
+            return Ok(JSONString);
         }
-       
 
-        private static List<T> ConvertDataTable<T>(DataTable dt)
+        [HttpGet("id")]
+        public ActionResult<IEnumerable<Products>> GetById(int id)
         {
-            List<T> data = new List<T>();
-            foreach (DataRow row in dt.Rows)
-            {
-                T item = GetItem<T>(row);
-                data.Add(item);
-            }
-            return data;
+            Connect con = new Connect();
+            con.retrieveData("Select * from ProductTbl where ProdId=" + id);
+            JSONString = JsonConvert.SerializeObject(con.table);
+            return Ok(JSONString);
         }
-        private static T GetItem<T>(DataRow dr)
-        {
-            Type temp = typeof(T);
-            T obj = Activator.CreateInstance<T>();
 
-            foreach (DataColumn column in dr.Table.Columns)
-            {
-                foreach (PropertyInfo pro in temp.GetProperties())
-                {
-                    if (pro.Name == column.ColumnName)
-                        pro.SetValue(obj, dr[column.ColumnName], null);
-                    else
-                        continue;
-                }
-            }
-            return obj;
+
+        [HttpPost]
+        public ActionResult<IEnumerable<Products>> Create(Products products)
+        {
+            string query = @"Insert Into ProductTbl values('" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "')";
+            Connect con = new Connect();
+            con.commandExc(query);
+            JSONString = JsonConvert.SerializeObject(con.table);
+            return Ok(JSONString);
         }
+
+        [HttpPut("id")]
+        public ActionResult<IEnumerable<Products>> Update(Products products)
+        {
+            string query = @"Update ProductTbl set values('" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "') where ProdId = " + products.ProdId;
+            Connect con = new Connect();
+            con.commandExc(query);
+            JSONString = JsonConvert.SerializeObject(con.table);
+            return Ok(JSONString);
+        }
+
+        [HttpDelete("id")]
+        public ActionResult<IEnumerable<Products>> Delete(Products products)
+        {
+            string query = @"Delete From ProductTbl where ProdId = " + products.ProdId;
+            Connect con = new Connect();
+            con.commandExc(query);
+            JSONString = JsonConvert.SerializeObject(con.table);
+            return Ok(JSONString);
+        }
+
     }
 
 
