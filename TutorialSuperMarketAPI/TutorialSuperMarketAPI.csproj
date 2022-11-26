@@ -246,7 +246,6 @@
     <Folder Include="Views\Employee\" />
     <Folder Include="Views\Products\" />
     <Folder Include="Views\Sellers\" />
-    <Folder Include="Views\Test\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

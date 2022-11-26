@@ -229,7 +229,7 @@ namespace FullStackAppAPI.Controllers
             }
             else
             {
-                string query = @"Insert Into ProductTbl values(" + products.Prodid + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "')";
+                string query = @"Insert Into ProductTbl values(" + products.ProdId + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "')";
                 Connect con = new Connect();
                 con.commandExc(query);
                 return Ok(products);
