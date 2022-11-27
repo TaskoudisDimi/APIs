@@ -15,9 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackingAPI", "TrackingAPI\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialSuperMarketAPI", "TutorialSuperMarketAPI\TutorialSuperMarketAPI.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{249655DE-982A-486B-97EF-7DA3B00FB503}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Database", "Database\Database.csproj", "{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -49,10 +47,6 @@ Global
 		{142D1A99-F7AE-460B-B58F-ECA936D75338}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{142D1A99-F7AE-460B-B58F-ECA936D75338}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{142D1A99-F7AE-460B-B58F-ECA936D75338}.Release|Any CPU.Build.0 = Release|Any CPU
-		{249655DE-982A-486B-97EF-7DA3B00FB503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{249655DE-982A-486B-97EF-7DA3B00FB503}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{249655DE-982A-486B-97EF-7DA3B00FB503}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{249655DE-982A-486B-97EF-7DA3B00FB503}.Release|Any CPU.Build.0 = Release|Any CPU
 		{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
