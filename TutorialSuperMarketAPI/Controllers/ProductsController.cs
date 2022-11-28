@@ -209,32 +209,32 @@ namespace FullStackAppAPI.Controllers
 
 
 
-        [System.Web.Http.HttpGet]
-        [AcceptVerbs(HttpVerbs.Get)]
-        [System.Web.Http.Route("api/allproducts")]
-        public HttpResponseMessage GetAllProducts()
-        {
-            string query = @"Select * From ProductTbl";
-            Connect con = new Connect();
-            con.retrieve_data(query);
-            return Request.CreateResponse(HttpStatusCode.OK, con.table);
-        }
+        //[System.Web.Http.HttpGet]
+        //[AcceptVerbs(HttpVerbs.Get)]
+        //[System.Web.Http.Route("api/allproducts")]
+        //public HttpResponseMessage GetAllProducts()
+        //{
+        //    string query = @"Select * From ProductTbl";
+        //    Connect con = new Connect();
+        //    con.retrieve_data(query);
+        //    return Request.CreateResponse(HttpStatusCode.OK, con.table);
+        //}
 
 
-        public IHttpActionResult Post(Products products)
-        {
-            if (products == null)
-            {
-                return NotFound();
-            }
-            else
-            {
-                string query = @"Insert Into ProductTbl values(" + products.ProdId + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "')";
-                Connect con = new Connect();
-                con.commandExc(query);
-                return Ok(products);
-            }
-        }
+        //public IHttpActionResult Post(Products products)
+        //{
+        //    if (products == null)
+        //    {
+        //        return NotFound();
+        //    }
+        //    else
+        //    {
+        //        string query = @"Insert Into ProductTbl values(" + products.ProdId + ",'" + products.ProdName + "'," + products.ProdQty + "," + products.ProdPrice + ",'" + products.ProdCat + "','" + products.Date + "')";
+        //        Connect con = new Connect();
+        //        con.commandExc(query);
+        //        return Ok(products);
+        //    }
+        //}
 
         //[System.Web.Http.HttpPost]
         //public string Post(Products products)
