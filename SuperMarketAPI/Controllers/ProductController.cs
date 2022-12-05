@@ -18,12 +18,21 @@ namespace SuperMarketAPI.Controllers
         }
 
         [HttpGet("id")]
-        public ActionResult<Product> GetMemberById(int id)
+        public ActionResult<Product> GetProductById(int id)
         {
-            Connect data2 = new Connect();
-            data2.retrieveData("Select * From ProductsTbl where ProdId = " + id);
+            Connect dataById = new Connect();
+            dataById.retrieveData("Select * From ProductsTbl where ProdId = " + id);
             return Ok();
         }
+
+        [HttpGet("name")]
+        public ActionResult<Product> GetProductByName(string name)
+        {
+            Connect dataByName = new Connect();
+            dataByName.retrieveData("Select * From ProductsTbl where ProdName = " + name);
+            return Ok();
+        }
+
 
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
