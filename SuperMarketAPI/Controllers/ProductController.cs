@@ -5,6 +5,7 @@ using SuperMarketAPI.Model;
 
 namespace SuperMarketAPI.Controllers
 {
+    //TODO: Token based
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
