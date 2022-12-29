@@ -35,7 +35,7 @@ namespace SuperMarketAPI.Controllers
         public ActionResult<Product> GetProductByName(string name)
         {
             Connect dataByName = new Connect();
-            dataByName.retrieveData("Select * From ProductTbl where ProdName = " + name);
+            dataByName.retrieveData("Select * From ProductTbl where ProdName = '" + name + "'");
             string JSONresult;
             JSONresult = JsonConvert.SerializeObject(dataByName.table);
             return Ok(JSONresult);
@@ -47,31 +47,32 @@ namespace SuperMarketAPI.Controllers
         public ActionResult<Product> Create(Product product)
         {
             Connect dataPost = new Connect();
-            dataPost.commandExc(@"Insert Into ProductTbl values(" + product.ProdId + ",'" + product.ProdName + "'," + product.ProdQty + "," + product.ProdPrice + ",'" + product.ProdCat + "','" + product.Date + "')");
+            dataPost.commandExc(@"Insert Into ProductTbl values('" + product.ProdName + "'," + product.ProdQty + "," + product.ProdPrice + "," + product.ProdCatID + ",'" + product.ProdCat + "','" + product.Date + "')");
             string JSONresult;
             JSONresult = JsonConvert.SerializeObject(dataPost.table);
             return Ok(JSONresult);
         }
 
 
-        [HttpPut("{Id}")]
+        [HttpPut("Id")]
         [ProducesResponseType(typeof(Product), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Product), StatusCodes.Status400BadRequest)]
         public ActionResult<Product> Update(int id, Product product)
         {
+            
             Connect dataUpdate = new Connect();
-            dataUpdate.commandExc(@"Update ProductTbl set ProdName='" + product.ProdName + "', ProdQty='" + product.ProdQty + "', ProdPrice='" + product.ProdPrice + "', ProdCat='" + product.ProdCat + "' Where Prodid = " + product.ProdId + "");
+            dataUpdate.commandExc(@"Update ProductTbl set ProdName='" + product.ProdName + "', ProdQty='" + product.ProdQty + "', ProdPrice='" + product.ProdPrice + "', ProdCatID = '" + product.ProdCatID + "', ProdCat='" + product.ProdCat + "' Where Prodid = " + id);
             string JSONresult;
             JSONresult = JsonConvert.SerializeObject(dataUpdate.table);
             return Ok(JSONresult);
         }
 
 
-        [HttpDelete("{Id}")]
+        [HttpDelete("Id")]
         public ActionResult<Product> Delete(int id)
         {
             Connect dataDelete = new Connect();
-            dataDelete.commandExc("@Delete From ProductTbl where ProdId = " + id);
+            dataDelete.commandExc("Delete From ProductTbl where ProdId = " + id);
             string JSONresult;
             JSONresult = JsonConvert.SerializeObject(dataDelete.table);
             return Ok(JSONresult);
