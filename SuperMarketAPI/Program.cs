@@ -23,3 +23,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+// TODO: Add documentation on Swagger

@@ -17,7 +17,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialSuperMarketAPI", "T
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Database", "Database\Database.csproj", "{280EDDBA-499D-4C47-AD84-F65EA5AAAD3A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperMarketAPI", "SuperMarketAPI\SuperMarketAPI.csproj", "{75BEA5B0-7B14-4348-ABDF-05151A6A58F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SuperMarketAPI", "SuperMarketAPI\SuperMarketAPI.csproj", "{75BEA5B0-7B14-4348-ABDF-05151A6A58F8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
