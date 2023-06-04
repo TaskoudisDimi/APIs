@@ -14,6 +14,15 @@ namespace Database
             //con = new SqlConnection("server=DESKTOP-FF268DF\\SQLEXPRESS;database=smarketdb;Integrated Security=SSPI;");
         }
 
+        private void OpenCon()
+        {
+
+        }
+
+        private void CloseCon()
+        {
+
+        }
 
         public void retrieveData(string command)
         {
