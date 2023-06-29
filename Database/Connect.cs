@@ -1,18 +1,45 @@
 ﻿using System.Data;
 using System.Data.SqlClient;
 using System.Configuration;
+using System.Threading;
+
 namespace Database
 {
     public class Connect
     {
         SqlConnection con = new SqlConnection();
         public DataTable table = new DataTable();
-
+        private static readonly ThreadLocal<int> instancesLocal = new System.Threading.ThreadLocal<int>();
+        private static Dictionary<int, Connect> instances = new Dictionary<int, Connect>();
         public Connect()
         {
             con.ConnectionString = ConfigurationManager.ConnectionStrings["smarketdb"].ConnectionString;
             //con = new SqlConnection("server=DESKTOP-FF268DF\\SQLEXPRESS;database=smarketdb;Integrated Security=SSPI;");
         }
+
+        public Connect Instance
+        {
+            get
+            {
+                int currentID = instancesLocal.Value;
+                if (Monitor.TryEnter(Instance))
+                {
+                    if (!instances.ContainsKey(currentID))
+                    {
+                        return instances[currentID] = new Connect();
+                    }
+                    else
+                    {
+                        return instances[currentID];
+                    }
+                }
+                else
+                {
+                    return instances[currentID] = new Connect();
+                }
+            }
+        }
+
 
 
         public void retrieveData(string command)

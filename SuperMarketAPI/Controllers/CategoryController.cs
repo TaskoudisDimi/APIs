@@ -77,8 +77,12 @@ namespace SuperMarketAPI.Controllers
             return Ok(JSONresult);
         }
 
-
-
+        [HttpGet]
+        public IActionResult test()
+        {
+            
+            return NotFound();
+        }
 
 
 
