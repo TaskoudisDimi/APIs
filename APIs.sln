@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FootballApp", "FootballApp\FootballApp.csproj", "{8C565932-20F1-40EC-9CA1-EC1073177B00}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Jokes", "Jokes\Jokes.csproj", "{DCE07E22-984B-4477-A93D-71FACB8B10E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TutorialSuperMarketAPI", "TutorialSuperMarketAPI\TutorialSuperMarketAPI.csproj", "{142D1A99-F7AE-460B-B58F-ECA936D75338}"
@@ -23,14 +21,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Debug|x86.Build.0 = Debug|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|x86.ActiveCfg = Release|Any CPU
-		{8C565932-20F1-40EC-9CA1-EC1073177B00}.Release|x86.Build.0 = Release|Any CPU
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DCE07E22-984B-4477-A93D-71FACB8B10E1}.Debug|x86.ActiveCfg = Debug|Any CPU

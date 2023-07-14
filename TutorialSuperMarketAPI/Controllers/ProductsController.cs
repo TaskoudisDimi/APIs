@@ -14,7 +14,7 @@ namespace FullStackAppAPI.Controllers
         #region Action Return Type
         ////The Web API action method can have following return types.
         ////        Void
-        ////        Primitive type or Complex type
+        ////        Primitive type or Complex type (e.g. int, object, string, etc.)
         ////        HttpResponseMessage
         ////        IHttpActionResult
 
