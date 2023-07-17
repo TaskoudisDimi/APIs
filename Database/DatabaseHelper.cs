@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SuperMarketAPI.Model;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -9,11 +10,67 @@ using System.Threading.Tasks;
 
 namespace Database
 {
-    public static class DBAttributeHelper
+    public static class DatabaseHelper
     {
 
+
+        #region Select
+        public static string SelectTables(Type t)
+        {
+            //Get Table/Tables
+            return "Test of Tables";
+
+        }
+        #endregion
+
+        #region Delete
+
+        public static string DeleteItem(this Type t, object item)
+        {
+            string table = t.Name;
+            string id = "Test"; //Find id based on item
+            return $"Delete {table} where {table} = {id}";
+        }
+
+        public static string DeleteItems(this Type t, List<object> items)
+        {
+            StringBuilder cmd = new StringBuilder();
+            foreach(var item in items)
+            {
+                cmd.Append(t.DeleteItem(item));
+            }
+            return cmd.ToString();
+        }
+
+        #endregion
+
+        #region Update
+
+        #endregion
+
+        #region Create
+        public static string CreateItem(this Type t, object item)
+        {
+            string table = t.Name; // Get Name of Table
+
+            List<int> testFields = new List<int>();
+            testFields.Add(1);
+            IEnumerable<int> fields = testFields;
+
+
+            return $@"SET ANSI_WARNINGS OFF;  
+                      Insert Into {table} {string.Join(",", fields)}
+                      OUTPUT Inserted.{t.Name} VALUES
+                      ({string.Join(",", fields)});
+                      SET ANSI_WARNINGS ON; ";
+        }
+
+
+
+        #endregion
+
         #region Comments
-        
+
 
         //#region Attribute Properties
 

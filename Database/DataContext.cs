@@ -5,26 +5,26 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Configuration;
-using System.Net.Sockets;
+using System.Reflection.Metadata;
 
 namespace Database
 {
-    public class SqlConnect
+    public class DataContext
     {
-        private static SqlConnect instance = null;
+
+
+        private static DataContext instance = null;
         private static readonly object padlock = new object();
         public static int queryTimeOut = 20;
-        static Dictionary<int, SqlConnect> instances = new Dictionary<int, SqlConnect>();
+        static Dictionary<int, DataContext> instances = new Dictionary<int, DataContext>();
         private static int instanceID;
         private static readonly ThreadLocal<int> currentInstanceId = new ThreadLocal<int>();
         public static string connectionString;
         public SqlDataReader reader = null;
         public SqlConnection connection = null;
 
-       
 
-        public static SqlConnect Instance
+        public static DataContext Instance
         {
             get
             {
@@ -32,7 +32,7 @@ namespace Database
                 {
                     if (instance == null)
                     {
-                        instance = new SqlConnect();
+                        instance = new DataContext();
                     }
                     return instance;
                 }
@@ -47,7 +47,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                
+
             }
             if (connection == null || connection.State != ConnectionState.Open)
             {
@@ -71,7 +71,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                
+
             }
 
         }
@@ -89,7 +89,7 @@ namespace Database
             }
             catch (Exception ex)
             {
-                
+
                 connection.Dispose();
                 connection = null;
                 instances.Remove(currentInstanceId.Value);
@@ -97,6 +97,8 @@ namespace Database
             }
             return connection != null;
         }
+
+
 
         public SqlDataReader SelectDataReader(string sql, List<SqlParameter> parameters = null)
         {
@@ -129,64 +131,10 @@ namespace Database
                 long dt = (long)((DateTime.Now - dtStart).TotalMilliseconds);
                 if (dt > 100)
                 {
-                    
+
                 }
             }
             return reader;
-        }
-
-        public int Insert(string cmd)
-        {
-            if (!CheckConnection())
-            {
-                return -1;
-            }
-            try
-            {
-                SqlCommand command = new SqlCommand(cmd, connection);
-                return command.ExecuteNonQuery();
-            }
-            catch
-            {
-                return -1;
-            }
-
-        }
-
-        public int Update(string cmd)
-        {
-            if (!CheckConnection())
-            {
-                return -1;
-            }
-            try
-            {
-                SqlCommand command = new SqlCommand(cmd, connection);
-                return command.ExecuteNonQuery();
-
-            }
-            catch
-            {
-                return -1;
-            }
-        }
-
-        public int Delete(string cmd)
-        {
-            if (!CheckConnection())
-            {
-                return -1;
-            }
-            try
-            {
-                SqlCommand command = new SqlCommand(cmd, connection);
-                return command.ExecuteNonQuery();
-
-            }
-            catch
-            {
-                return -1;
-            }
         }
 
         public DataTable SelectDataTable(string sql, List<SqlParameter> parameters = null)
@@ -211,7 +159,7 @@ namespace Database
                 long time = (long)((DateTime.Now - dtStart).TotalMilliseconds);
                 if (time > 100)
                 {
-                    
+
                 }
             }
             return dt;
@@ -224,11 +172,5 @@ namespace Database
             return set;
         }
 
-
-
-
-
     }
-
-    
 }

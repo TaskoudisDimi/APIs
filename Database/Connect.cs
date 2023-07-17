@@ -14,7 +14,6 @@ namespace Database
         public Connect()
         {
             con.ConnectionString = ConfigurationManager.ConnectionStrings["smarketdb"].ConnectionString;
-            //con = new SqlConnection("server=DESKTOP-FF268DF\\SQLEXPRESS;database=smarketdb;Integrated Security=SSPI;");
         }
 
         public Connect Instance
@@ -85,6 +84,8 @@ namespace Database
 
             }
         }
+
+        
 
     }
 }
