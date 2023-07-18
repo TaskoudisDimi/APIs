@@ -3,23 +3,28 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using SuperMarketAPI.Model;
+using System;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace SuperMarketAPI.Controllers
 {
-
+ 
     [Route("api/[controller]")]
     [ApiController]
     public class ProductController : ControllerBase
     {
+        ProductTbl product = new ProductTbl();
+
         [HttpGet]
-        public ActionResult<IEnumerable<Product>> GetAllMembers()
+        public ActionResult<IEnumerable<ProductTbl>> GetAllMembers()
         {
             Connect data = new Connect();
             data.retrieveData("Select * From ProductTbl");
             string JSONresult;
             JSONresult = JsonConvert.SerializeObject(data.table);
+
+            var result = DataModel.Select<ProductTbl>(product.GetType());
             return Ok(JSONresult);
         }
 

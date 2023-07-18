@@ -98,8 +98,6 @@ namespace Database
             return connection != null;
         }
 
-
-
         public SqlDataReader SelectDataReader(string sql, List<SqlParameter> parameters = null)
         {
 

@@ -13,12 +13,12 @@ namespace Database
     public static class DatabaseHelper
     {
 
-
         #region Select
-        public static string SelectTables(Type t)
+        public static string SelectTables(object table)
         {
             //Get Table/Tables
-            return "Test of Tables";
+            string query = $"Select * from {table}";
+            return query;
 
         }
         #endregion
