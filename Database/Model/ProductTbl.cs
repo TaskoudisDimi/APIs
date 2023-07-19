@@ -1,5 +1,8 @@
-﻿namespace SuperMarketAPI.Model
+﻿using Database;
+
+namespace SuperMarketAPI.Model
 {
+    [TableName("ProductTbl")]
     public class ProductTbl
     {
         public int ProdId { get; set; }

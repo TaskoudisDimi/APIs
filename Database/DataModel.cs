@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using SuperMarketAPI.Model;
+using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -11,18 +14,181 @@ namespace Database
     public static class DataModel
     {
 
-        public static T Select<T>(Type table) where T : class, new()
+        public static T[] Select<T>(string[] fields = null, string where = "", List<SqlParameter> queryparams = null, string table = null, string sort = null, int pageIndex = -1, int pageSize = -1, int top = -1) where T : class, new()
         {
-            //OpenConnection
-            //find the Type of calling object
-            //find datatables executing the query based on the object Type
-            //convert the datatables to List
-            DataContext.Instance.CheckConnection();
+            string error = "";
+            return Select<T>(ref error, fields, where, queryparams, table, sort, pageIndex, pageSize, top);
+        }
+        public static T[] Select<T>(ref string error, string[] fields = null, string where = "", List<SqlParameter> queryparams = null, string table = null, string sort = null, int pageIndex = -1, int pageSize = -1, int top = -1) where T : class, new()
+        {
+            string tableName = table;
+            if (String.IsNullOrEmpty(table))
+            {
+                TableNameAttribute tableAttribute = (TableNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(TableNameAttribute));
 
-            Type t = new T().GetType();
-            List<T> test = new List<T>();
+                if (tableAttribute == null)
+                {
+                    error = "Class doesn't have TableNameAttribute";
+                    return null;
+                }
+                tableName = tableAttribute.TableName;
+            }
 
-            return test.FirstOrDefault();
+            error = "";
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+                List<string> selectFields = new List<string>();
+                List<SqlParameter> para = new List<SqlParameter>();
+                if (queryparams != null && queryparams.Count > 0)
+                {
+                    para.AddRange(queryparams);
+                }
+                foreach (PropertyInfo p in properties)
+                {
+                    string fieldName = p.Name;
+                    string memberName = p.Name;
+                    if (Attribute.IsDefined(p, typeof(JsonPropertyAttribute)))
+                    {
+                        JsonPropertyAttribute attr = p.GetCustomAttribute<JsonPropertyAttribute>();
+                        fieldName = attr.PropertyName;
+                    }
+
+                    if (Attribute.IsDefined(p, typeof(CalculatedFieldAttribute)))
+                    {
+                        continue;
+                    }
+
+                    if (fields == null || ContainsNoCase(fields, memberName))
+                    {
+                        selectFields.Add($"[{fieldName}]");
+                    }
+                }
+
+                string order = "";
+                if (!string.IsNullOrEmpty(sort))
+                {
+                    if (pageIndex > -1 && pageSize > -1)
+                    {
+                        order = $" ORDER BY {sort} offset (({pageIndex} - 1) * {pageSize}) rows fetch next {pageSize} rows only";
+                    }
+                    else
+                        order = $" ORDER BY {sort}";
+                }
+
+                string topSelect = (top > -1 && pageIndex == -1 && pageSize == -1) ? $"TOP ({top})" : "";
+                string whereSelect = (!String.IsNullOrEmpty(where)) ? $"WHERE ({where})" : "";
+                string sql = $"SELECT {topSelect} {string.Join(",", selectFields)} FROM {tableName} {whereSelect} {order}";
+
+                DataTable dt = DataContext.Instance.SelectDataTable(sql, para);
+
+                List<T> result = GetListFromDataTable<T>(dt);
+
+                T[] res = null;
+                if (dt != null)
+                {
+                    res = Deserlize<T>(dt);
+                    dt.Dispose();
+                }
+                
+                return res;
+            }
+            catch (Exception ex)
+            {
+                
+                error = ex.Message;
+                return null;
+            }
+        }
+
+        public static bool ContainsNoCase(string[] fields, string value)
+        {
+            if (fields == null)
+                return false;
+            string v = value.Trim().ToLower();
+            foreach (string s in fields)
+            {
+                if (s.ToLower().CompareTo(v) == 0)
+                    return true;
+            }
+            return false;
+        }
+
+        public static T[] Deserlize<T>(DataTable dt) where T : new()
+        {
+            if (dt == null)
+                return null;
+            if (dt.Rows.Count == 0)
+            {
+                return new T[0];
+            }
+
+            List<T> resList = new List<T>();
+            foreach (DataRow dr in dt.Rows)
+            {
+                resList.Add(Deserlize<T>(dr));
+            }
+
+            return resList.ToArray();
+        }
+
+        public static T Deserlize<T>(DataRow dr) where T : new()
+        {
+            if (dr == null)
+                return default(T);
+
+            List<T> resList = new List<T>();
+            T t = new T();
+            PropertyInfo[] properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
+
+            foreach (DataColumn dc in dr.Table.Columns)
+            {
+                // PropertyInfo propInfo = typeof(T).GetProperty(dc.ColumnName,
+                //     BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
+                PropertyInfo propInfo = null;
+                foreach (PropertyInfo p in properties)
+                {
+                    if (Attribute.IsDefined(p, typeof(JsonPropertyAttribute)))
+                    {
+                        JsonPropertyAttribute attr = p.GetCustomAttribute<JsonPropertyAttribute>();
+                        if (attr != null)
+                        {
+                            if (String.Equals(dc.ColumnName, attr.PropertyName, StringComparison.OrdinalIgnoreCase))
+                            {
+                                propInfo = p;
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (String.Equals(dc.ColumnName, p.Name, StringComparison.OrdinalIgnoreCase))
+                        {
+                            propInfo = p;
+                            break;
+                        }
+                    }
+                }
+
+                if (propInfo != null && propInfo.CanWrite)
+                {
+                    object objVal = null;
+                    if (!dr.IsNull(dc.ColumnName))
+                    {
+                        var tp = Nullable.GetUnderlyingType(propInfo.PropertyType) ?? propInfo.PropertyType;
+                        //if (!Attribute.IsDefined(propInfo, typeof(BinaryFieldAttribute)))
+                        {
+                            objVal = Convert.ChangeType(dr[dc], tp);
+                        }
+                        //else
+                        //{
+                        //    objVal = Base64.Base64Encode((byte[])dr[dc]);
+                        //}
+                    }
+                    propInfo.SetValue(t, objVal, null);
+                }
+            }
+            return t;
         }
 
 
@@ -175,4 +341,10 @@ namespace Database
 
         #endregion
     }
+
+    public class CalculatedFieldAttribute : Attribute
+    {
+
+    }
+
 }

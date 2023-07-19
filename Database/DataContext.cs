@@ -6,12 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Reflection.Metadata;
+using System.Drawing;
+using System.Configuration;
 
 namespace Database
 {
     public class DataContext
     {
-
 
         private static DataContext instance = null;
         private static readonly object padlock = new object();
@@ -23,6 +24,10 @@ namespace Database
         public SqlDataReader reader = null;
         public SqlConnection connection = null;
 
+        public DataContext()
+        {
+            connectionString = ConfigurationManager.ConnectionStrings["smarketdb"].ConnectionString;
+        }
 
         public static DataContext Instance
         {
@@ -113,7 +118,7 @@ namespace Database
                 cmd.Connection = connection;
                 cmd.CommandType = CommandType.Text;
                 cmd.CommandText = sql;
-                if (parameters != null)
+                if (parameters != null && parameters.Count > 0)
                 {
                     cmd.Parameters.AddRange(parameters.ToArray());
                 }

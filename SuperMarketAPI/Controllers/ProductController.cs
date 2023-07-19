@@ -14,17 +14,14 @@ namespace SuperMarketAPI.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        ProductTbl product = new ProductTbl();
 
         [HttpGet]
-        public ActionResult<IEnumerable<ProductTbl>> GetAllMembers()
+        public IActionResult GetAllMembers()
         {
-            Connect data = new Connect();
-            data.retrieveData("Select * From ProductTbl");
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(data.table);
 
-            var result = DataModel.Select<ProductTbl>(product.GetType());
+            var result = DataModel.Select<ProductTbl>();
+            string JSONresult;
+            JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
 
@@ -86,6 +83,9 @@ namespace SuperMarketAPI.Controllers
         }
 
 
+
+        #region Token
+        
         [HttpPost]
         public object Token()
         {
@@ -235,8 +235,7 @@ namespace SuperMarketAPI.Controllers
 
         }
 
-
-
+        #endregion
 
     }
 }
