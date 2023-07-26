@@ -8,6 +8,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Database
 {
@@ -101,6 +102,201 @@ namespace Database
             }
         }
 
+        public static int? Create<T>(this T item, string[] fields = null, List<SqlParameter> queryparams = null, string table = null, string error = null) where T : class, new()
+        {
+            string tableName = table;
+            if (String.IsNullOrEmpty(table))
+            {
+                TableNameAttribute tableAttribute = (TableNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(TableNameAttribute));
+                if(tableAttribute == null)
+                {
+                    error = "Class doesn't exist";
+                    return null;
+                }
+                tableName = tableAttribute.TableName;    
+            }
+
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                List<string> selectFields = new List<string>();
+                List<SqlParameter> para = new List<SqlParameter>();
+                string fieldName = "";
+                if (queryparams != null && queryparams.Count > 0)
+                {
+                    para.AddRange(queryparams);
+                }
+                foreach(PropertyInfo p in properties)
+                {
+                    if (p.Name.ToLower().Contains("id"))
+                    {
+                        continue;
+                    }
+                    selectFields.Add(p.Name);
+                }
+
+                List<object> values = new List<object>();
+
+                foreach(PropertyInfo prop in properties)
+                {
+                    if (prop.Name.ToLower().Contains("id")) continue;
+                    object testValue = prop.GetValue(item, null);
+                    object ValuesCMD = GetValueFromItem(prop, testValue);
+                    values.Add(ValuesCMD);
+                }
+               
+                string cmd = $@"SET ANSI_WARNINGS OFF;
+                                Insert Into [{tableName}] ({string.Join(",", selectFields)})
+                                VALUES ({string.Join(",", values)})
+                                SET ANSI_WARNINGS ON;";
+
+                int result = DataContext.Instance.ExecuteNQ(cmd);
+
+                if(result > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+
+                
+
+            }
+            catch
+            {
+                return -1;
+            }
+
+            
+        }
+
+        public static int? Update<T>(this T item, string[] updateOnly = null) where T : class, new()
+        {
+            //StringBuilder sb = new StringBuilder();
+            //string table = t.DatabaseTable();
+            //IEnumerable<DatabaseColumn> fields = t.DatabaseFieldsAttributes().Where(x => x.Update);
+
+            //if (includeOnly != null && includeOnly.Count() > 0)
+            //{
+            //    fields = fields.Where(x => includeOnly.Contains(x.Name));
+            //}
+
+            //string pkId = Utils.GetString(item.GetPropValueForSql(t.DatabasePrimaryKey()));
+            //if (fields.Count() > 0)
+            //{
+            //    sb.Append(string.Format("update {0} set {1} where {2} = {3}; select {3};",
+            //                                table,
+            //                                string.Join(",", fields.Select(x => string.Format("[{0}].[{1}] = {2}", table, x.Name, item.GetPropValueForSql(x)))),
+            //                                t.DatabasePrimaryKey().Name,
+            //                                pkId));
+            //}
+
+            //return sb.ToString();
+
+            return 1;
+
+            
+        }
+
+        public static int? Delete<T>(this T item) where T : class, new()
+        {
+            //Type t = typeof(T);
+            //// Save to history if this item is history enabled
+            //string ItemID = Utils.GetString(item.GetPropValueForSql(t.DatabasePrimaryKey()));
+
+            //string table = t.DatabaseTable();
+            //StringBuilder sb = new StringBuilder();
+            //long id = Utils.GetLong(item.GetPropValueForSql(t.DatabasePrimaryKey()));
+
+            //return $"delete {table} where [{t.DatabasePrimaryKey().Name}] = {id};";
+
+
+
+            return 1;
+        }
+
+
+
+
+
+
+
+        #region Helpers
+
+        private static object GetValueFromItem(PropertyInfo prop, object val)
+        {
+            if (prop.PropertyType == typeof(DateTime))
+            {
+                return string.Format("'{0}'", Utils.GetDate(val, new DateTime(1700, 1, 1)).ToString("yyyy-MM-dd H:mm:ss"));
+            }
+            else if (prop.PropertyType == typeof(DateTime?))
+            {
+                return string.Format("'{0}'", Utils.GetDate(val).Value.ToString("yyyy-MM-dd H:mm:ss"));
+            }
+            else if (prop.PropertyType == typeof(int))
+            {
+                int result = Utils.GetInt(val);
+                return result.ToString();
+            }
+            else if (prop.PropertyType == typeof(int?))
+            {
+                int result = Utils.GetInt(val);
+                return result.ToString();
+            }
+            else if (prop.PropertyType == typeof(float))
+            {
+                return Utils.GetString(Utils.GetFloat(val)).Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(float?))
+            {
+                float? result = Utils.GetNullFloat(val);
+                return result == null ? null : Utils.GetString(result).Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(double))
+            {
+                return Utils.GetString(Utils.GetDouble(val)).Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(double?))
+            {
+                double? result = Utils.GetNullDouble(val);
+                return result == null ? null : Utils.GetString(result).Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(decimal))
+            {
+                decimal val1 = Utils.GetDecimal(val);
+                string strVal = Utils.GetString(val1);
+                return strVal.Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(decimal?))
+            {
+                decimal? result = Utils.GetNullDecimal(val);
+                return result == null ? null : Utils.GetString(result).Replace(",", ".");
+            }
+            else if (prop.PropertyType == typeof(long))
+            {
+                return Utils.GetInt(val);
+            }
+            else if (prop.PropertyType == typeof(long?))
+            {
+                long result = Utils.GetInt(val);
+                return result.ToString();
+            }
+            else if (prop.PropertyType == typeof(bool) || prop.PropertyType == typeof(bool?))
+            {
+                return Utils.GetBool(val) ? "1" : "0";
+            }
+            else if (prop.PropertyType == typeof(string))
+            {
+                return string.Format("'{0}'", Utils.GetString(val));
+            }
+
+            //string strValue = $"ENCRYPTBYPASSPHRASE('{Globals.EncryptionKey}', {strValue})";
+
+            return null;
+        }
+
         public static bool ContainsNoCase(string[] fields, string value)
         {
             if (fields == null)
@@ -192,38 +388,6 @@ namespace Database
         }
 
 
-
-        public static T Delete<T>() where T : class, new()
-        {
-            string testProperty = "Test";
-            PropertyInfo test2 = testProperty.GetType().GetProperty("test");
-
-            Type t = new T().GetType();
-            List<T> test = new List<T>();
-
-            return test.FirstOrDefault();
-        }
-
-        public static T Update<T>() where T : class, new()
-        {
-            Type t = new T().GetType();
-            List<T> test = new List<T>();
-
-            return test.FirstOrDefault();
-        }
-
-        public static T Create<T>() where T : class, new()
-        {
-            Type t = new T().GetType();
-            List<T> test = new List<T>();
-
-            return test.FirstOrDefault();
-        }
-
-
-
-        #region Helpers
-
         public static List<T> GetListFromDataTable<T>(DataTable table) where T : class, new()
         {
             List<T> list = new List<T>();
@@ -237,6 +401,7 @@ namespace Database
             }
             return list;
         }
+
         public static T GetObjectFromDataRow<T>(DataRow row) where T : class, new()
         {
 

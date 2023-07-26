@@ -175,5 +175,58 @@ namespace Database
             return set;
         }
 
+        public object ExecScalar(string sql)
+        {
+            if (!CheckConnection())
+            {
+                return null;
+            }
+            try
+            {
+                using (Locker.Lock(instances))
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.CommandTimeout = queryTimeOut;
+                    cmd.Connection = connection;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql;
+                    object obj = cmd.ExecuteScalar();
+                    return obj;
+                }
+                
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        public int ExecuteNQ(string sql)
+        {
+            if (!CheckConnection())
+            {
+                return 0;
+            }
+            try
+            {
+                using (Locker.Lock(instances))
+                {
+                    SqlCommand cmd = new SqlCommand();
+                    cmd.Connection = connection;
+                    cmd.CommandType = CommandType.Text;
+                    cmd.CommandText = sql;
+                    int obj = cmd.ExecuteNonQuery();
+                    instances.Remove(currentInstanceId.Value);
+                    return obj;
+                }
+
+            }
+            catch
+            {
+                return 0;
+            }
+
+        }
+
     }
 }
