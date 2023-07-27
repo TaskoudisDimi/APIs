@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using SuperMarketAPI.Model;
 using System;
 using System.Collections.Generic;
@@ -122,26 +123,22 @@ namespace Database
                 List<string> selectFields = new List<string>();
                 List<SqlParameter> para = new List<SqlParameter>();
                 string fieldName = "";
+                List<object> values = new List<object>();
+
                 if (queryparams != null && queryparams.Count > 0)
                 {
                     para.AddRange(queryparams);
                 }
                 foreach(PropertyInfo p in properties)
                 {
-                    if (p.Name.ToLower().Contains("id"))
-                    {
-                        continue;
-                    }
+                    if (p.Name.ToLower().Contains("id")) continue;
                     selectFields.Add(p.Name);
                 }
-
-                List<object> values = new List<object>();
-
                 foreach(PropertyInfo prop in properties)
                 {
                     if (prop.Name.ToLower().Contains("id")) continue;
-                    object testValue = prop.GetValue(item, null);
-                    object ValuesCMD = GetValueFromItem(prop, testValue);
+                    object Value = prop.GetValue(item, null);
+                    object ValuesCMD = GetValueFromItem(prop, Value);
                     values.Add(ValuesCMD);
                 }
                
@@ -160,66 +157,114 @@ namespace Database
                 {
                     return -1;
                 }
+            }
+            catch
+            {
+                return -1;
+            }
+        }
 
-                
+        public static int? Update<T>(this T item, string[] updateOnly = null, string error = "") where T : class, new()
+        {
+
+            StringBuilder sb = new StringBuilder();
+            string table = "";
+            TableNameAttribute tableName = (TableNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(TableNameAttribute));
+            if(tableName == null)
+            {
+                error = "This class doesn't exist";
+                return null;
+            }
+            table = tableName.TableName;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                object idOfTable = null;
+                object valueOfIdOfTable = null;
+                bool findPrimaryKey = false;
+                List<object> values = new List<object>();
+                sb.Append($"Update {table} set ");
+                foreach (PropertyInfo prop in properties)
+                {
+                    if (prop.Name.ToLower().Contains("id") && !findPrimaryKey)
+                    {
+                        idOfTable = prop.Name;
+                        valueOfIdOfTable = prop.GetValue(item, null);
+                        findPrimaryKey = true;
+                        continue;
+                    }
+                    object Value = prop.GetValue(item, null);
+                    object ValuesCMD = GetValueFromItem(prop, Value);
+                    values.Add(ValuesCMD);
+                    sb.Append($"[{table}].[{prop.Name}] = {ValuesCMD} ,");
+                }
+                string cmd = sb.ToString();
+                cmd = cmd.TrimEnd(' ', ',');
+                cmd = cmd + $" where {idOfTable} = {valueOfIdOfTable}";
+                int result = DataContext.Instance.ExecuteNQ(cmd);
+                if (result > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
 
             }
             catch
             {
                 return -1;
             }
-
-            
         }
 
-        public static int? Update<T>(this T item, string[] updateOnly = null) where T : class, new()
+        public static int? Delete<T>(this T item, string error = "") where T : class, new()
         {
-            //StringBuilder sb = new StringBuilder();
-            //string table = t.DatabaseTable();
-            //IEnumerable<DatabaseColumn> fields = t.DatabaseFieldsAttributes().Where(x => x.Update);
-
-            //if (includeOnly != null && includeOnly.Count() > 0)
-            //{
-            //    fields = fields.Where(x => includeOnly.Contains(x.Name));
-            //}
-
-            //string pkId = Utils.GetString(item.GetPropValueForSql(t.DatabasePrimaryKey()));
-            //if (fields.Count() > 0)
-            //{
-            //    sb.Append(string.Format("update {0} set {1} where {2} = {3}; select {3};",
-            //                                table,
-            //                                string.Join(",", fields.Select(x => string.Format("[{0}].[{1}] = {2}", table, x.Name, item.GetPropValueForSql(x)))),
-            //                                t.DatabasePrimaryKey().Name,
-            //                                pkId));
-            //}
-
-            //return sb.ToString();
-
+            StringBuilder sb = new StringBuilder();
+            string table = "";
+            TableNameAttribute tableName = (TableNameAttribute)Attribute.GetCustomAttribute(typeof(T), typeof(TableNameAttribute));
+            if (tableName == null)
+            {
+                error = "This class doesn't exist";
+                return null;
+            }
+            table = tableName.TableName;
+            try
+            {
+                PropertyInfo[] properties = typeof(T).GetProperties();
+                object idOfTable = null;
+                object valueOfIdOfTable = null;
+                bool findPrimaryKey = false;
+                List<object> values = new List<object>();
+                sb.Append($"Delete From {table}");
+                foreach (PropertyInfo prop in properties)
+                {
+                    if (prop.Name.ToLower().Contains("id") && !findPrimaryKey)
+                    {
+                        idOfTable = prop.Name;
+                        valueOfIdOfTable = prop.GetValue(item, null);
+                        findPrimaryKey = true;
+                        continue;
+                    }
+                }
+                sb.Append($" where {idOfTable} = {valueOfIdOfTable}");
+                string cmd = sb.ToString();
+                int result = DataContext.Instance.ExecuteNQ(cmd);
+                if (result > 0)
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+            catch
+            {
+                return -1;
+            }
             return 1;
-
-            
         }
-
-        public static int? Delete<T>(this T item) where T : class, new()
-        {
-            //Type t = typeof(T);
-            //// Save to history if this item is history enabled
-            //string ItemID = Utils.GetString(item.GetPropValueForSql(t.DatabasePrimaryKey()));
-
-            //string table = t.DatabaseTable();
-            //StringBuilder sb = new StringBuilder();
-            //long id = Utils.GetLong(item.GetPropValueForSql(t.DatabasePrimaryKey()));
-
-            //return $"delete {table} where [{t.DatabasePrimaryKey().Name}] = {id};";
-
-
-
-            return 1;
-        }
-
-
-
-
 
 
 

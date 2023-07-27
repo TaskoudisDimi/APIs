@@ -2,11 +2,12 @@
 
 namespace SuperMarketAPI.Controllers
 {
-    public class SellerController : Controller
+    [Route("api/[controller]")]
+    public class SellerController : ControllerBase
     {
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using Database;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -12,9 +13,15 @@ namespace SuperMarketAPI.Controllers
 {
  
     [Route("api/[controller]")]
-    [ApiController]
     public class ProductController : ControllerBase
     {
+
+        //[Consumes("application/json")]
+        //[Consumes("application/x-www-form-urlencoded")]
+
+        //[Produces("application/json")]
+        //[Route("api/[controller]/[action]")]
+
 
         [HttpGet]
         public IActionResult GetAllMembers()
@@ -60,30 +67,36 @@ namespace SuperMarketAPI.Controllers
         }
 
 
-        [HttpPut("Id")]
+        [HttpPut]
         [ProducesResponseType(typeof(Product), StatusCodes.Status204NoContent)]
         [ProducesResponseType(typeof(Product), StatusCodes.Status400BadRequest)]
-        public ActionResult<Product> Update(int id, Product product)
+        public ActionResult<Product> Update([FromBody] ProductTbl product)
         {
-            
-            Connect dataUpdate = new Connect();
-            dataUpdate.commandExc(@"Update ProductTbl set ProdName='" + product.ProdName + "', ProdQty='" + product.ProdQty + "', ProdPrice='" + product.ProdPrice + "', ProdCatID = '" + product.ProdCatID + "', ProdCat='" + product.ProdCat + "' Where Prodid = " + id);
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataUpdate.table);
-            return Ok(JSONresult);
+            var result = DataModel.Update<ProductTbl>(product);
+            if (result > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
 
-        [HttpDelete("Id")]
-        public ActionResult<Product> Delete(int id)
+        [HttpDelete]
+        public ActionResult<Product> Delete([FromBody] ProductTbl product)
         {
-            Connect dataDelete = new Connect();
-            dataDelete.commandExc("Delete From ProductTbl where ProdId = " + id);
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataDelete.table);
-            return Ok(JSONresult);
+            var result = DataModel.Delete<ProductTbl>(product);
+            if (result > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
-
 
 
         #region Token
