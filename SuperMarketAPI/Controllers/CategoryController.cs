@@ -10,71 +10,87 @@ namespace SuperMarketAPI.Controllers
     public class CategoryController : ControllerBase
     {
 
+        //[Consumes("application/x-www-form-urlencoded")]
+
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpGet]
-        public ActionResult<IEnumerable<Category>> GetAllMembers()
+        public IActionResult GetAllCategories()
         {
-            Connect data = new Connect();
-            data.retrieveData("Select * From CategoryTbl");
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(data.table);
+
+            var result = DataModel.Select<CategoryTbl>();
+            //string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(result);
+        }
+
+        [HttpGet("ById/{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public IActionResult GetCategoryById(int id)
+        {
+            var result = DataModel.Select<CategoryTbl>(where: $"{nameof(CategoryTbl.CatId)} = '{id}'");
+            return Ok(result);
+        }
+
+        [HttpGet("ByName/{name}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        public IActionResult GetCategoryByName(string name)
+        {
+            var result = DataModel.Select<CategoryTbl>(where: $"{nameof(CategoryTbl.CatName)} = '{name}'");
+            string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
 
-        [HttpGet("Id")]
-        public ActionResult<Product> GetProductById(int id)
-        {
-            Connect dataById = new Connect();
-            dataById.retrieveData("Select * From CategoryTbl where CatId = " + id);
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataById.table);
-            return Ok(JSONresult);
-        }
-
-        [HttpGet("Name")]
-        public ActionResult<Product> GetProductByName(string name)
-        {
-            Connect dataByName = new Connect();
-            dataByName.retrieveData("Select * From CategoryTbl where CatName = '" + name + "'");
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataByName.table);
-            return Ok(JSONresult);
-        }
-
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<Product> Create(Category category)
+        public ActionResult<CategoryTbl> Create(CategoryTbl category)
         {
-            Connect dataPost = new Connect();
-            dataPost.commandExc(@"Insert Into CategoryTbl values('" + category.CatName + "','" + category.CatDesc + "','" + category.Date + "')");
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataPost.table);
-            return Ok(JSONresult);
+            var result = DataModel.Create<CategoryTbl>(category);
+            if (result > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-
-        [HttpPut("Id")]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status400BadRequest)]
-        public ActionResult<Product> Update(int id, Category category)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpPut]
+        [ProducesResponseType(typeof(CategoryTbl), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(CategoryTbl), StatusCodes.Status400BadRequest)]
+        public ActionResult<CategoryTbl> Update([FromBody] CategoryTbl category)
         {
-
-            Connect dataUpdate = new Connect();
-            dataUpdate.commandExc(@"Update CategoryTbl set CatName='" + category.CatName + "', CatDesc='" + category.CatDesc + "', Date = '" + category.Date +  "' Where CatId = " + id);
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataUpdate.table);
-            return Ok(JSONresult);
+            var result = DataModel.Update<CategoryTbl>(category);
+            if (result > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
-
-        [HttpDelete("Id")]
-        public ActionResult<Product> Delete(int id)
+        [Consumes("application/json")]
+        [Produces("application/json")]
+        [HttpDelete]
+        public ActionResult<CategoryTbl> Delete([FromBody] CategoryTbl category)
         {
-            Connect dataDelete = new Connect();
-            dataDelete.commandExc("Delete From CategoryTbl where CatId = " + id);
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(dataDelete.table);
-            return Ok(JSONresult);
+            var result = DataModel.Delete<CategoryTbl>(category);
+            if (result > 0)
+            {
+                return Ok();
+            }
+            else
+            {
+                return NotFound();
+            }
         }
 
     }

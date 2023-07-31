@@ -1,6 +1,9 @@
-﻿namespace SuperMarketAPI.Model
+﻿using Database;
+
+namespace SuperMarketAPI.Model
 {
-    public class Category
+    [TableName("ProductTbl")]
+    public class CategoryTbl
     {
         public int CatId { get; set; }
         public string CatName { get; set; }

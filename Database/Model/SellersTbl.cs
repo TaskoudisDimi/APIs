@@ -1,8 +1,10 @@
-﻿using System.Drawing;
+﻿using Database;
+using System.Drawing;
 
 namespace SuperMarketAPI.Model
 {
-    public class Sellers
+    [TableName("ProductTbl")]
+    public class SellersTbl
     {
 
         public int SellerId { get; set; }

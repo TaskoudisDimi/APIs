@@ -16,44 +16,58 @@ namespace SuperMarketAPI.Controllers
     public class ProductController : ControllerBase
     {
 
-        //[Consumes("application/json")]
         //[Consumes("application/x-www-form-urlencoded")]
 
-        //[Produces("application/json")]
-        //[Route("api/[controller]/[action]")]
+        //// In your authentication service or login endpoint, generate the token:
+        //string secretKey = "your_secret_key_here";
+        //var tokenService = new TokenService(secretKey);
+        //string token = tokenService.GenerateToken("user123", "john.doe", "Admin");
+
+        //// In your authorization middleware or API endpoint, validate the token:
+        //var tokenValidator = new TokenValidator(secretKey);
+        //bool isValidToken = tokenValidator.ValidateToken(token);
 
 
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpGet]
-        public IActionResult GetAllMembers()
+        [Authorize]
+        public IActionResult GetAllProducts()
         {
 
             var result = DataModel.Select<ProductTbl>();
-            string JSONresult;
-            JSONresult = JsonConvert.SerializeObject(result);
-            return Ok(JSONresult);
+            //string JSONresult = JsonConvert.SerializeObject(result);
+            return Ok(result);
         }
 
+
+
+
+
         [HttpGet("ById/{id}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
         public IActionResult GetProductById(int id)
         {
-            var result = DataModel.Select<ProductTbl>(where: $"{nameof(Product.ProdId)} = '{id}'");
-            string JSONresult = JsonConvert.SerializeObject(result);
-
-            return Ok(JSONresult);
+            var result = DataModel.Select<ProductTbl>(where: $"{nameof(ProductTbl.ProdId)} = '{id}'");
+            return Ok(result);
         }
 
         [HttpGet("ByName/{name}")]
+        [Consumes("application/json")]
+        [Produces("application/json")]
         public IActionResult GetProductByName(string name)
         {
-            var result = DataModel.Select<ProductTbl>(where: $"{nameof(Product.ProdName)} = '{name}'");
+            var result = DataModel.Select<ProductTbl>(where: $"{nameof(ProductTbl.ProdName)} = '{name}'");
             string JSONresult = JsonConvert.SerializeObject(result);
             return Ok(JSONresult);
         }
 
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
-        public ActionResult<Product> Create(ProductTbl product)
+        public ActionResult<ProductTbl> Create(ProductTbl product)
         {
             var result = DataModel.Create<ProductTbl>(product);
             if(result > 0)
@@ -66,11 +80,12 @@ namespace SuperMarketAPI.Controllers
             }
         }
 
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpPut]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status204NoContent)]
-        [ProducesResponseType(typeof(Product), StatusCodes.Status400BadRequest)]
-        public ActionResult<Product> Update([FromBody] ProductTbl product)
+        [ProducesResponseType(typeof(ProductTbl), StatusCodes.Status204NoContent)]
+        [ProducesResponseType(typeof(ProductTbl), StatusCodes.Status400BadRequest)]
+        public ActionResult<ProductTbl> Update([FromBody] ProductTbl product)
         {
             var result = DataModel.Update<ProductTbl>(product);
             if (result > 0)
@@ -83,9 +98,10 @@ namespace SuperMarketAPI.Controllers
             }
         }
 
-
+        [Consumes("application/json")]
+        [Produces("application/json")]
         [HttpDelete]
-        public ActionResult<Product> Delete([FromBody] ProductTbl product)
+        public ActionResult<ProductTbl> Delete([FromBody] ProductTbl product)
         {
             var result = DataModel.Delete<ProductTbl>(product);
             if (result > 0)
@@ -135,21 +151,6 @@ namespace SuperMarketAPI.Controllers
         //    //{
         //    //    modivcareClient = DataModel.Get<IQ_AppSettings>(filter: $" AND [IQ_AppSettings].[sett_name] = 'MODIVCARE_IQTAXI_CLIENT_ID' OR " +
         //    //    $"[IQ_AppSettings].[sett_name] = 'MODIVCARE_IQTAXI_CLIENT_SECRET'");
-        //    //}
-        //    //else
-        //    //{
-        //    //    string sql = "SELECT [sett_name], [sett_value] FROM [dbo].[radiotaxi_AppSettings] WHERE [radiotaxi_AppSettings].[sett_name] = 'MODIVCARE_IQTAXI_CLIENT_ID' " +
-        //    //        "OR [radiotaxi_AppSettings].[sett_name] = 'MODIVCARE_IQTAXI_CLIENT_SECRET'";
-        //    //    DataTable dt = DataModel.ExecTable(sql);
-        //    //    modivcareClient = new List<IQ_AppSettings>();
-        //    //    foreach (DataRow row in dt.Rows)
-        //    //    {
-        //    //        modivcareClient.Add(new IQ_AppSettings()
-        //    //        {
-        //    //            sett_name = row["sett_name"].ToString(),
-        //    //            sett_value = row["sett_value"].ToString()
-        //    //        });
-        //    //    }
         //    //}
 
 
