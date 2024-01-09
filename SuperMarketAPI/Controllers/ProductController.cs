@@ -11,7 +11,7 @@ using System.Web.Http.Results;
 
 namespace SuperMarketAPI.Controllers
 {
-    [Log]
+
     [Route("api/[controller]")]
     public class ProductController : ControllerBase
     {
@@ -28,7 +28,71 @@ namespace SuperMarketAPI.Controllers
         //bool isValidToken = tokenValidator.ValidateToken(token);
 
 
+        [HttpGet("jwt")]
+        [Authorize]
+        public IActionResult TestJWT()
+        {
+            return Ok("Authenticated using JWT token.");
+        }
+
+        [HttpGet("cookie")]
+        [Authorize]
+        public IActionResult TestCookie()
+        {
+            return Ok("Authenticated using Cookie token.");
+        }
+
+
+        private const string ValidUsername = "validUser";
+        private const string ValidPassword = "validPassword";
+        [HttpGet("Basic")]
+        [BasicAuth] // Apply BasicAuthAttribute for authorization
+        public IActionResult TestBasic()
+        { 
+            // Check if the Authorization header is present in the request
+            if (!Request.Headers.ContainsKey("Authorization"))
+            {
+                return Unauthorized("Authorization header missing.");
+            }
+
+            // Retrieve the Authorization header value
+            string authHeader = Request.Headers["Authorization"];
+
+            // Check if the Authorization header is of type Basic
+            if (!authHeader.StartsWith("Basic "))
+            {
+                return Unauthorized("Invalid authorization scheme.");
+            }
+
+            // Extract the Base64-encoded credentials
+            string encodedCredentials = authHeader.Substring("Basic ".Length).Trim();
+
+            // Decode the Base64-encoded credentials
+            byte[] decodedBytes = Convert.FromBase64String(encodedCredentials);
+            string decodedCredentials = System.Text.Encoding.UTF8.GetString(decodedBytes);
+
+            // Split the decoded credentials into username and password
+            string[] credentials = decodedCredentials.Split(':', 2);
+
+            // Check if the provided credentials match the expected username and password
+            if (credentials.Length != 2 || credentials[0] != ValidUsername || credentials[1] != ValidPassword)
+            {
+                return Unauthorized("Invalid username or password.");
+            }
+
+            // Authentication successful; return the secured resource
+            return Ok("This is a secured resource.");
+        }
+
+
+
+        //Produces : It is a filter attribute that specifies the expected System.
+        //Type the action will return and the supported response content types.
+        //Consume: It is a filter attribute that specifies the supported request content types.
+
+        //Request
         [Consumes("application/json")]
+        //Response
         [Produces("application/json")]
         [HttpGet]
         [Authorize]
@@ -37,6 +101,7 @@ namespace SuperMarketAPI.Controllers
 
             var result = DataModel.Select<ProductTbl>();
             //string JSONresult = JsonConvert.SerializeObject(result);
+
             return Ok(result);
         }
 
