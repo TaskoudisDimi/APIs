@@ -1,18 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Diagnostics;
 using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 
-namespace FullStackAppAPI.Controllers
+namespace SuperMarketAPI.Controllers
 {
     public class LogAttribute : Attribute, IActionFilter
     {
+
         //In the bellow example, deriving from Attribute class makes it an attribute and implementing IActionFilter makes LogAttribute class
         //as action filter.
         public LogAttribute()
@@ -38,5 +32,7 @@ namespace FullStackAppAPI.Controllers
         {
             get { return true; }
         }
+
+
     }
 }
