@@ -1,6 +1,6 @@
 ﻿namespace SuperMarketAPI.Model
 {
-    public class Bills
+    public class BillTbl
     {
 
         public int BillId { get; set; }

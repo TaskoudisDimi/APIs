@@ -15,55 +15,61 @@ namespace SuperMarketAPI.Controllers
         }
 
         #region JWT
-       
-        //private readonly IConfiguration _configuration;
 
-        //public AccountController(IConfiguration configuration)
-        //{
-        //    _configuration = configuration;
-        //}
+        private readonly IConfiguration _configuration;
 
-        //[HttpPost("login")]
-        //public IActionResult Login([FromBody] LoginModel loginModel)
-        //{
-        //    // Validate the received credentials (for example, against a database)
-        //    bool isValidCredentials = ValidateCredentials(loginModel.Username, loginModel.Password);
+        public AccountController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
-        //    if (isValidCredentials)
-        //    {
-        //        // Create claims based on the validated user
-        //        var claims = new[]
-        //        {
-        //        new Claim(ClaimTypes.Name, loginModel.Username)
-        //        // Add other claims as needed (e.g., roles, additional information)
-        //    };
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] LoginModel loginModel)
+        {
+            // Validate the received credentials (for example, against a database)
+            bool isValidCredentials = ValidateCredentials(loginModel.Username, loginModel.Password);
 
-        //        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:SecretKey"]));
-        //        var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+            if (isValidCredentials)
+            {
+                // Create claims based on the validated user
+                var claims = new[]
+                {
+                    new Claim(ClaimTypes.Name, loginModel.Username)
+                    // Add other claims as needed (e.g., roles, additional information)
+                };
+                var secretKey = _configuration["Jwt:SecretKey"];
+                if (string.IsNullOrEmpty(secretKey))
+                {
+                    // Handle the case where the configuration value is missing or empty
+                    throw new InvalidOperationException("Jwt:SecretKey is missing or empty in the configuration.");
+                }
 
-        //        var token = new JwtSecurityToken(
-        //            issuer: _configuration["Jwt:Issuer"],
-        //            audience: _configuration["Jwt:Audience"],
-        //            claims: claims,
-        //            expires: DateTime.UtcNow.AddMinutes(30), // Token expiration time
-        //            signingCredentials: creds
-        //        );
+                var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
+                var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
-        //        return Ok(new
-        //        {
-        //            token = new JwtSecurityTokenHandler().WriteToken(token)
-        //        });
-        //    }
+                var token = new JwtSecurityToken(
+                        issuer: _configuration["Jwt:Issuer"],
+                        audience: _configuration["Jwt:Audience"],
+                        claims: claims,
+                        expires: DateTime.UtcNow.AddMinutes(30), // Token expiration time
+                        signingCredentials: creds
+                    );
 
-        //    return Unauthorized();
-        //}
+                return Ok(new
+                {
+                    token = new JwtSecurityTokenHandler().WriteToken(token)
+                });
+            }
 
-        //// Method to validate credentials (replace with actual validation logic)
-        //private bool ValidateCredentials(string username, string password)
-        //{
-        //    // Replace this with your actual validation logic against a user database or other source
-        //    return username == "validUser" && password == "validPassword";
-        //}
+            return Unauthorized();
+        }
+
+        // Method to validate credentials (replace with actual validation logic)
+        private bool ValidateCredentials(string username, string password)
+        {
+            // Replace this with your actual validation logic against a user database or other source
+            return username == "Dimitask" && password == "9963";
+        }
 
         #endregion
 
@@ -78,8 +84,11 @@ namespace SuperMarketAPI.Controllers
 
         //    if (isValidCredentials)
         //    {
+        //        // Generate a simple authentication token (for demonstration purposes)
+        //        string authToken = Guid.NewGuid().ToString();
+
         //        // Set the authentication cookie on successful authentication
-        //        Response.Cookies.Append("AuthCookie", "Authenticated", new CookieOptions
+        //        Response.Cookies.Append("AuthCookie", authToken, new CookieOptions
         //        {
         //            HttpOnly = true, // Make the cookie accessible only via HTTP (not JavaScript)
         //            Expires = DateTime.UtcNow.AddMinutes(30) // Set expiration time for the cookie
@@ -95,7 +104,7 @@ namespace SuperMarketAPI.Controllers
         //private bool ValidateCredentials(string username, string password)
         //{
         //    // Replace this with your actual validation logic against a user database or other source
-        //    return username == "validUser" && password == "validPassword";
+        //    return username == "DimTask" && password == "9963";
         //}
 
         #endregion

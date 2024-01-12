@@ -1,20 +1,23 @@
+using IdentityServer4.Configuration;
+using IdentityServer4.Models;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
+IConfiguration _configuration = builder.Configuration; // Initialize _configuration
 
 
 //JWT
- //Add authentication services
+//Add authentication services
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuerSigningKey = true,
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes("mySecretKey")),
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Jwt:SecretKey"])),
             ValidateIssuer = false,
             ValidateAudience = false
         };

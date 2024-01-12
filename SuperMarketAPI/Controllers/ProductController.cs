@@ -27,70 +27,121 @@ namespace SuperMarketAPI.Controllers
         //var tokenValidator = new TokenValidator(secretKey);
         //bool isValidToken = tokenValidator.ValidateToken(token);
 
+        #region JWT
 
         [HttpGet("jwt")]
         [Authorize]
         public IActionResult TestJWT()
         {
+
             return Ok("Authenticated using JWT token.");
         }
+
+        #endregion
+
+        #region Cookie
 
         [HttpGet("cookie")]
         [Authorize]
         public IActionResult TestCookie()
         {
-            return Ok("Authenticated using Cookie token.");
+
+            // Check if the request contains a valid authentication cookie
+            if (Request.Cookies.TryGetValue("AuthCookie", out var authCookieValue))
+            {
+                // Replace this with your logic to retrieve data from the database
+                // Only return data if the authentication is successful (for demonstration purposes)
+                if (IsValidAuthentication(authCookieValue))
+                {
+                    var responseData = new
+                    {
+                        Message = "Data from the database",
+                        Data = new
+                        {
+                            // Replace this with your actual data retrieval logic
+                            ExampleData = "Some data",
+                            AnotherData = "More data"
+                        }
+                    };
+
+                    return Ok(responseData);
+                }
+            }
+
+            // Return Unauthorized if the authentication cookie is not present or invalid
+            return Unauthorized("Authentication required.");
         }
 
+        // Method to validate authentication (replace with your actual validation logic)
+        private bool IsValidAuthentication(string authCookieValue)
+        {
+            // Replace this with your actual validation logic (e.g., check against user sessions or a token)
+            // For demonstration purposes, we are just checking if the cookie value is not empty
+            return !string.IsNullOrEmpty(authCookieValue);
+        }
 
-        private const string ValidUsername = "validUser";
-        private const string ValidPassword = "validPassword";
-        [HttpGet("Basic")]
+        #endregion
+
+        #region Basic Auth
+        
+        private const string ValidUsername = "Dimitask";
+        private const string ValidPassword = "9963";
+        [HttpGet("BasicAuth")]
         [BasicAuth] // Apply BasicAuthAttribute for authorization
         public IActionResult TestBasic()
-        { 
-            // Check if the Authorization header is present in the request
-            if (!Request.Headers.ContainsKey("Authorization"))
-            {
-                return Unauthorized("Authorization header missing.");
-            }
+        {
 
-            // Retrieve the Authorization header value
-            string authHeader = Request.Headers["Authorization"];
-
-            // Check if the Authorization header is of type Basic
-            if (!authHeader.StartsWith("Basic "))
-            {
-                return Unauthorized("Invalid authorization scheme.");
-            }
-
-            // Extract the Base64-encoded credentials
-            string encodedCredentials = authHeader.Substring("Basic ".Length).Trim();
-
-            // Decode the Base64-encoded credentials
-            byte[] decodedBytes = Convert.FromBase64String(encodedCredentials);
-            string decodedCredentials = System.Text.Encoding.UTF8.GetString(decodedBytes);
-
-            // Split the decoded credentials into username and password
-            string[] credentials = decodedCredentials.Split(':', 2);
-
-            // Check if the provided credentials match the expected username and password
-            if (credentials.Length != 2 || credentials[0] != ValidUsername || credentials[1] != ValidPassword)
-            {
-                return Unauthorized("Invalid username or password.");
-            }
-
+            //The authentication is checked on the BasicAuth attribute
             // Authentication successful; return the secured resource
             return Ok("This is a secured resource.");
         }
 
+        #endregion
 
+        #region API Key
+
+        [HttpGet("ApiKey")]
+        [ApiKeyAuth] // Custom attribute to validate API key
+        public IActionResult ApiKey()
+        {
+
+            return Ok("Authenticated using ApiKey token.");
+        }
+
+
+        #endregion
+
+        #region OAuth 
+
+        [HttpPost("token")]
+        public IActionResult Token()
+        {
+            var token = HttpContext.Request.Headers["Authorization"].ToString().Replace("Bearer ", "");
+            // Validate the token (you may use an IdentityServer4 library method or your custom logic)
+
+            if (TokenIsValid(token))
+            {
+                return Ok("Resource accessed successfully");
+            }
+
+            return Unauthorized("Invalid token");
+        }
+
+        private bool TokenIsValid(string token)
+        {
+            // Replace this with your token validation logic
+            return token == "YourValidOAuthToken";
+        }
+
+
+        #endregion
 
         //Produces : It is a filter attribute that specifies the expected System.
         //Type the action will return and the supported response content types.
         //Consume: It is a filter attribute that specifies the supported request content types.
 
         //Request
+
         [Consumes("application/json")]
         //Response
         [Produces("application/json")]

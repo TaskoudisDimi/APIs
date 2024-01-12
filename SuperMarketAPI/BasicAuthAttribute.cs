@@ -20,10 +20,10 @@ namespace SuperMarketAPI
                 string[] credentials = decodedCredentials.Split(':', 2);
 
                 // Check your credentials logic here (e.g., verify against database)
-                string validUsername = "yourUsername";
-                string validPassword = "yourPassword";
+                string validUsername = "Dimitask";
+                string validPassword = "9963";
 
-                if (credentials.Length == 2 && credentials[0] == validUsername && credentials[1] == validPassword)
+                if (credentials.Length == 2 && credentials[0].ToString() == validUsername && credentials[1].ToString() == validPassword)
                 {
                     // Authorization successful
                     return;
